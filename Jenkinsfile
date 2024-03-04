@@ -31,11 +31,4 @@ pipeline {
             }
         }
     }
-    
-    post {
-        always {
-            // Clean up Terraform files and directories
-            sh 'terraform destroy -auto-approve'
-        }
-    }
 }
