@@ -17,7 +17,9 @@ provider "docker" {
 resource "docker_image" "my_image" {
   name         = "vaibhavkalel/tf_docker_image:latest"  # Adjusted repository/name for Docker Hub
   keep_locally = false
-  build        = {
+  
+  # Specify how to build the Docker image
+  build = {
     context    = "./"
     dockerfile = "./Dockerfile"
   }
