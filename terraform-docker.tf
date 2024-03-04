@@ -21,7 +21,7 @@ resource "docker_image" "tf_docker_image" {
 }
 
 resource "docker_container" "tf_docker_container" {
-  image = docker_image.tf_docker_image.latest
+  image = docker_image.tf_docker_image.name
   name  = "terraform_docker_container"
   ports {
     internal = 80
