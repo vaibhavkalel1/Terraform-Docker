@@ -1,25 +1,41 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/vaibhavkalel1/Terraform-Docker.git' // Replace with your repository URL
+                // Checkout your Terraform scripts from version control
+                // Replace the repository URL with your actual Git repository URL
+                git 'https://github.com/vaibhavkalel1/Terraform-Docker.git'
             }
         }
+        
         stage('Terraform Init') {
             steps {
-                script {
-                    sh 'terraform init'
-                }
+                // Initialize Terraform in the directory containing your Terraform scripts
+                sh 'terraform init'
             }
         }
+        
+        stage('Terraform Plan') {
+            steps {
+                // Generate and display an execution plan
+                sh 'terraform plan'
+            }
+        }
+        
         stage('Terraform Apply') {
             steps {
-                script {
-                    sh 'terraform apply -auto-approve'
-                }
+                // Apply the Terraform execution plan automatically without prompting for confirmation
+                sh 'terraform apply -auto-approve'
             }
+        }
+    }
+    
+    post {
+        always {
+            // Clean up Terraform files and directories
+            sh 'terraform destroy -auto-approve'
         }
     }
 }
