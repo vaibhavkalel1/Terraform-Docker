@@ -1,11 +1,3 @@
-def ansiColorWrap(color, command) {
-    def result
-    ansiColor(color) {
-        result = sh(script: command, returnStatus: true)
-    }
-    return result
-}
-
 pipeline {
     agent any
     
@@ -24,14 +16,15 @@ pipeline {
         
         stage('Terraform Plan') {
             steps {
-                // Generate and display an execution plan with ANSI color
-                def planResult = ansiColorWrap('xterm', 'terraform plan')
+                // Generate and display an execution plan
+                def planResult = runCommandWithColor('terraform plan')
                 echo "Terraform Plan Exit Code: ${planResult}"
             }
         }
         
         stage('Terraform Apply') {
             steps {
+                // Apply the Terraform execution plan automatically without prompting for confirmation
                 sh 'terraform apply -auto-approve'
             }
         }
