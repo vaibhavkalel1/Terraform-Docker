@@ -4,63 +4,30 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Checkout your Terraform scripts from version control
+                // Replace the repository URL with your actual Git repository URL
+                git 'https://github.com/vaibhavkalel1/Terraform-Docker.git'
             }
         }
         
         stage('Terraform Init') {
             steps {
-                script {
-                    sh 'terraform init'
-                }
+                // Initialize Terraform in the directory containing your Terraform scripts
+                sh 'terraform init'
             }
         }
         
         stage('Terraform Plan') {
             steps {
-                script {
-                    sh 'terraform plan -out=tfplan'
-                }
+                // Generate and display an execution plan
+                sh 'terraform plan'
             }
         }
         
         stage('Terraform Apply') {
             steps {
-                script {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
-            }
-        }
-        
-        stage('Deploy Docker Container') {
-            steps {
-                script {
-                    sh 'docker run -d -p 8000:80 vaibhavkalel/tf_docker_image:latest'
-                }
-            }
-        }
-    }
-    
-    post {
-        always {
-            stage('Terraform Cleanup') {
-                steps {
-                    script {
-                        sh 'terraform destroy -auto-approve'
-                    }
-                }
-            }
-        }
-    }
-    
-    environment {
-        DOCKER_HOME = "/var/run/docker.sock"
-    }
-    
-    post {
-        always {
-            script {
-                sh 'sudo chown -R jenkins:docker ${DOCKER_HOME}'
+                // Apply the Terraform execution plan automatically without prompting for confirmation
+                sh 'terraform apply -auto-approve'
             }
         }
     }
