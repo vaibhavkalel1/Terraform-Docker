@@ -30,7 +30,7 @@ resource "docker_container" "my_container" {
   image = "vaibhavkalel/tf_docker_image:latest"  # Replaced image name
   name  = "terraform_docker_container"
   ports {
-    internal = 80
+    internal = 8000
     external = 8000
   }
 }
