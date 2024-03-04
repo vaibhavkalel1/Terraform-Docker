@@ -1,5 +1,6 @@
 provider "docker" {
   source = "kreuzwerker/docker"
+  version = "2.0.0"
 }
 
 resource "docker_image" "tf_docker_image" {
