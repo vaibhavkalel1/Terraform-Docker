@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Checkout') {
             steps {
@@ -17,6 +17,9 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
+                    // Start Docker daemon if not already running
+                    sh 'sudo systemctl start docker || true'
+                    // Apply Terraform configuration
                     sh 'terraform apply -auto-approve'
                 }
             }
