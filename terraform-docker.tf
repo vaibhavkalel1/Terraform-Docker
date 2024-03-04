@@ -8,7 +8,11 @@ terraform {
 }
 
 provider "docker" {
-  # Add any required configuration for the Docker provider here
+  registry_auth {
+    address  = "https://index.docker.io/v1/"
+    username = "vaibhavkalel"
+    password = "vaibhav2115"
+  }
 }
 
 resource "docker_image" "tf_docker_image" {
@@ -16,16 +20,8 @@ resource "docker_image" "tf_docker_image" {
   keep_locally = false
 }
 
-provider "docker" {
-  registry_auth {
-    address = "https://index.docker.io/v1/"
-    username = "vaibhavkalel"
-    password = "vaibhav2115"
-  }
-}
-
-resource "docker_container" "tf_docker_image" {
-  image = docker_image.tf_docker_image.id
+resource "docker_container" "tf_docker_container" {
+  image = docker_image.tf_docker_image.latest
   name  = "terraform_docker_container"
   ports {
     internal = 80
