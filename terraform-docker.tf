@@ -15,13 +15,13 @@ provider "docker" {
   }
 }
 
-resource "docker_image" "tf_docker_image" {
-  name         = "vaibhavkalel/tf_docker_image:latest"
+resource "docker_image" "vaibhavkalel" {
+  name         = "tf_docker_image:latest"
   keep_locally = false
 }
 
 resource "docker_container" "tf_docker_container" {
-  image = docker_image.vaibhavkalel/tf_docker_image.name
+  image = docker_image.vaibhavkalel.name
   name  = "terraform_docker_container"
   ports {
     internal = 80
