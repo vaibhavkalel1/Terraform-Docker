@@ -7,13 +7,17 @@ terraform {
   }
 }
 
+provider "docker" {
+  # Add any required configuration for the Docker provider here
+}
+
 resource "docker_image" "tf_docker_image" {
   name         = "tf_docker_image:latest"
   keep_locally = false
 }
 
 resource "docker_container" "tf_docker_image" {
-  image = docker_image.tf_docker_image.id  # Use 'id' instead of 'latest'
+  image = docker_image.tf_docker_image.id
   name  = "terraform_docker_container"
   ports {
     internal = 80
