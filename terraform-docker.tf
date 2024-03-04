@@ -1,3 +1,4 @@
+# Define the provider and required version
 terraform {
   required_providers {
     docker = {
@@ -7,21 +8,24 @@ terraform {
   }
 }
 
+# Configure the Docker provider
 provider "docker" {
-  registry_auth {
-    address  = "https://index.docker.io/v1/"
-    username = "vaibhavkalel"
-    password = "vaibhav2115"
+  # If you're authenticating with Docker Hub, you don't need to specify registry_auth
+}
+
+# Define the Docker image resource
+resource "docker_image" "my_image" {
+  name         = "vaibhavkalel/tf_docker_image:latest"  # Adjusted repository/name for Docker Hub
+  keep_locally = false
+  build        = {
+    context    = "./"
+    dockerfile = "./Dockerfile"
   }
 }
 
-resource "docker_image" "vaibhavkalel" {
-  name         = "tf_docker_image:latest"
-  keep_locally = false
-}
-
-resource "docker_container" "tf_docker_container" {
-  image = docker_image.vaibhavkalel.name
+# Define the Docker container resource
+resource "docker_container" "my_container" {
+  image = docker_image.my_image.latest
   name  = "terraform_docker_container"
   ports {
     internal = 80
