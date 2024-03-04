@@ -20,6 +20,9 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 // Generate and display an execution plan with ANSI color
+                ansiColor('xterm') {
+                    sh 'terraform plan'
+                }
             }
         }
         
