@@ -16,6 +16,14 @@ resource "docker_image" "tf_docker_image" {
   keep_locally = false
 }
 
+provider "docker" {
+  registry_auth {
+    address = "https://index.docker.io/v1/"
+    username = "vaibhavkalel"
+    password = "vaibhav2115"
+  }
+}
+
 resource "docker_container" "tf_docker_image" {
   image = docker_image.tf_docker_image.id
   name  = "terraform_docker_container"
