@@ -1,18 +1,23 @@
+def ansiColorWrap(color, command) {
+    def result
+    ansiColor(color) {
+        result = sh(script: command, returnStatus: true)
+    }
+    return result
+}
+
 pipeline {
     agent any
     
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your Terraform scripts from version control
-                // Replace the repository URL with your actual Git repository URL
                 git 'https://github.com/vaibhavkalel1/Terraform-Docker.git'
             }
         }
         
         stage('Terraform Init') {
             steps {
-                // Initialize Terraform in the directory containing your Terraform scripts
                 sh 'terraform init'
             }
         }
@@ -20,15 +25,13 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 // Generate and display an execution plan with ANSI color
-                ansiColor('xterm') {
-                    sh 'terraform plan'
-                }
+                def planResult = ansiColorWrap('xterm', 'terraform plan')
+                echo "Terraform Plan Exit Code: ${planResult}"
             }
         }
         
         stage('Terraform Apply') {
             steps {
-                // Apply the Terraform execution plan automatically without prompting for confirmation
                 sh 'terraform apply -auto-approve'
             }
         }
