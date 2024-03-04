@@ -1,4 +1,6 @@
-provider "docker" {}
+provider "docker" {
+  source = "kreuzwerker/docker"
+}
 
 resource "docker_image" "tf_docker_image" {
  name         = "tf_docker_image:latest"
