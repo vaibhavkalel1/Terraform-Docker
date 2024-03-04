@@ -19,7 +19,7 @@ resource "docker_image" "my_image" {
   keep_locally = false
   
   # Specify how to build the Docker image
-  build = {
+  build {
     context    = "./"
     dockerfile = "./Dockerfile"
   }
