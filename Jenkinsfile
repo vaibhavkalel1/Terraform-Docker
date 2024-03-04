@@ -19,8 +19,10 @@ pipeline {
         
         stage('Terraform Plan') {
             steps {
-                // Generate and display an execution plan
-                sh 'terraform plan'
+                // Generate and display an execution plan with ANSI color
+                ansiColor('xterm') {
+                    sh 'terraform plan'
+                }
             }
         }
         
@@ -34,7 +36,7 @@ pipeline {
     
     post {
         always {
-            // Clean up Terraform files and directories
+            // Clean up Terraform resources
             sh 'terraform destroy -auto-approve'
         }
     }
