@@ -27,10 +27,11 @@ resource "docker_image" "my_image" {
 
 # Define the Docker container resource
 resource "docker_container" "my_container" {
-  image = "${docker_image.my_image.latest}"  # Reference Docker image using its full name
+  image = "vaibhavkalel/tf_docker_image:latest"  # Replaced image name
   name  = "terraform_docker_container"
   ports {
     internal = 80
     external = 8000
   }
 }
+
