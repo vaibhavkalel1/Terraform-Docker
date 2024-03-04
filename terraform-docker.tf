@@ -27,7 +27,7 @@ resource "docker_image" "my_image" {
 
 # Define the Docker container resource
 resource "docker_container" "my_container" {
-  image = docker_image.vaibhavkalel/tf_docker_image.latest
+  image = vaibhavkalel/tf_docker_image.docker_image.latest
   name  = "terraform_docker_container"
   ports {
     internal = 80
