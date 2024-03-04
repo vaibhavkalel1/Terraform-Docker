@@ -1,10 +1,22 @@
 pipeline {
     agent any
     
+    environment {
+        DOCKER_HOME = "/var/run/docker.sock"
+    }
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+        
+        stage('Grant Docker Permissions') {
+            steps {
+                script {
+                    sh 'sudo chmod 666 ${DOCKER_HOME}'
+                }
             }
         }
         
