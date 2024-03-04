@@ -4,30 +4,51 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your Terraform scripts from version control
-                // Replace the repository URL with your actual Git repository URL
-                git 'https://github.com/vaibhavkalel1/Terraform-Docker.git'
+                checkout scm
             }
         }
         
         stage('Terraform Init') {
             steps {
-                // Initialize Terraform in the directory containing your Terraform scripts
-                sh 'terraform init'
+                script {
+                    sh 'terraform init'
+                }
             }
         }
         
         stage('Terraform Plan') {
             steps {
-                // Generate and display an execution plan
-                sh 'terraform plan'
+                script {
+                    sh 'terraform plan -out=tfplan'
+                }
             }
         }
         
         stage('Terraform Apply') {
             steps {
-                // Apply the Terraform execution plan automatically without prompting for confirmation
-                sh 'terraform apply -auto-approve'
+                script {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+        
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    sh 'docker run -d -p 8000:80 vaibhavkalel/tf_docker_image:latest'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            stage('Terraform Cleanup') {
+                steps {
+                    script {
+                        sh 'terraform destroy -auto-approve'
+                    }
+                }
             }
         }
     }
